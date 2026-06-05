@@ -9,6 +9,14 @@
   function motionMin() { return document.documentElement.getAttribute("data-motion") === "min"; }
   var hover = window.matchMedia("(hover: hover)").matches;
 
+  /* ---------- Auto-count: sincroniza el contador del hero con los cards reales ---------- */
+  var heroCount = document.querySelector(".pj-hero-index [data-count]");
+  if (heroCount) {
+    var total = document.querySelectorAll(".pj-card").length;
+    heroCount.setAttribute("data-count", total);
+    heroCount.textContent = "0";
+  }
+
   /* ---------- Title line reveal (hero) ---------- */
   var title = document.querySelector(".pj-title");
   if (title) { requestAnimationFrame(function () { setTimeout(function () { title.classList.add("in"); }, 120); }); }
