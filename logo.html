@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Avior — Rediseño del logo</title>
+<link rel="icon" type="image/png" href="assets/avior-icon.png" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<style>
+  :root{
+    --bg:#131110; --bg-2:#1a1714;
+    --cream:#ede7da; --cream-2:#c9c1b2;
+    --terra:#c9543b; --terra-2:#d96b50;
+    --paper:#f0ece3; --paper-line:rgba(19,17,16,0.10);
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{background:#cfc7b8;font-family:var(--sans);}
+
+  /* ---- variation card internals ---- */
+  .vcard{ width:100%; height:100%; background:var(--paper); display:flex; flex-direction:column;
+          font-family:var(--sans); color:#1a1714; overflow:hidden; }
+
+  .v-hero{ flex:1; display:grid; place-items:center; padding:42px 24px 30px; }
+  .squircle{ display:grid; place-items:center; }
+  .squircle.lg{ width:184px; height:184px; border-radius:46px; }
+  .squircle.md{ width:46px; height:46px; border-radius:13px; }
+  .squircle.sm{ width:34px; height:34px; border-radius:10px; }
+  .squircle.xs{ width:24px; height:24px; border-radius:7px; }
+  .squircle.xxs{ width:17px; height:17px; border-radius:5px; }
+
+  /* lockup */
+  .v-lockup{ padding:22px 28px; border-top:1px solid var(--paper-line);
+             display:flex; align-items:center; gap:14px; }
+  .wm{ font-family:var(--sans); font-weight:700; letter-spacing:-0.03em; line-height:1;
+       color:#15120f; display:inline-flex; align-items:flex-start; }
+  .wm sup{ font-family:var(--mono); font-weight:500; color:var(--terra); vertical-align:super; }
+  .wm.lg{ font-size:34px; } .wm.lg sup{ font-size:13px; margin-left:2px; }
+  .wm.md{ font-size:22px; } .wm.md sup{ font-size:10px; margin-left:1px; }
+  .lockup-tag{ font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+               color:rgba(19,17,16,0.5); margin-top:6px; }
+  .lk-text{ display:flex; flex-direction:column; }
+
+  /* dark context (nav-style) */
+  .v-dark{ background:var(--bg); padding:18px 28px; display:flex; align-items:center; gap:13px;
+           border-top:1px solid var(--paper-line); }
+  .v-dark .wm{ color:var(--cream); }
+  .v-dark .nav-meta{ margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:0.1em;
+                     color:rgba(237,231,218,0.45); text-transform:uppercase; }
+
+  /* scalability row */
+  .v-sizes{ padding:20px 28px 14px; display:flex; align-items:center; gap:18px;
+            border-top:1px solid var(--paper-line); }
+  .v-sizes .lbl{ font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
+                 color:rgba(19,17,16,0.45); margin-right:auto; }
+
+  /* footer note */
+  .v-note{ padding:16px 28px 24px; border-top:1px solid var(--paper-line); }
+  .v-note .nm{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+               color:var(--terra); }
+  .v-note .ds{ font-size:13px; line-height:1.45; color:rgba(19,17,16,0.62); margin-top:7px; text-wrap:pretty; }
+
+  /* intro panel on canvas */
+  .intro-note{ font-family:var(--mono); font-size:12px; color:rgba(19,17,16,0.55); line-height:1.6; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="js/avior-logo.js"></script>
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="logo-canvas-app.jsx"></script>
+</body>
+</html>

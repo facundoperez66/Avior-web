@@ -1,0 +1,251 @@
+/* ============================================================
+   AVIOR — Portal de entrada + Telón
+   Logo que se dibuja solo + nombre + botón "Entrar" → telón
+   Hereda tokens de avior.css
+   ============================================================ */
+
+body.intro-open { overflow: hidden; }
+
+.intro {
+  position: fixed; inset: 0; z-index: 1000;
+  background: transparent;          /* sólo los paneles son opacos */
+  overflow: hidden;
+}
+
+/* ---- dos cortinas que se abren hacia los lados (telón) ---- */
+.intro-panel {
+  position: absolute; top: 0; bottom: 0; width: 50.4%;
+  background: var(--bg); z-index: 1;
+  transition: transform 1.15s var(--ease);
+  will-change: transform;
+}
+.intro-panel.left  { left: 0; }
+.intro-panel.right { right: 0; }
+.intro.leaving .intro-panel.left  { transform: translateX(-100.5%); }
+.intro.leaving .intro-panel.right { transform: translateX(100.5%); }
+
+/* costura central: hairline terracota */
+.intro-seam {
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; z-index: 2;
+  transform: translateX(-50%) scaleY(0); transform-origin: center;
+  background: linear-gradient(to bottom, transparent 4%, var(--terra) 50%, transparent 96%);
+  opacity: 0; animation: introSeam 1.2s var(--ease) .1s forwards;
+}
+@keyframes introSeam { to { opacity: .5; transform: translateX(-50%) scaleY(1); } }
+.intro.closing .intro-seam { opacity: 0; transition: opacity .35s var(--ease); }
+
+/* grano sutil */
+.intro-grain {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  opacity: 0.05; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- contenido centrado ---- */
+.intro-inner {
+  position: relative; z-index: 3;
+  display: flex; flex-direction: column;
+  min-height: 100svh; padding: clamp(24px, 4vw, 54px) var(--pad);
+  transition: opacity .55s var(--ease), transform .8s var(--ease), filter .55s var(--ease);
+}
+.intro.closing .intro-inner,
+.intro.leaving .intro-inner { opacity: 0; transform: translateY(-10px) scale(.975); filter: blur(3px); }
+
+/* meta superior */
+.intro-top {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+}
+.intro-top .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-right: 9px; vertical-align: middle; }
+
+/* centro: logo + nombre + botón */
+.intro-center {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: clamp(16px, 2.6vw, 30px); text-align: center;
+}
+
+/* ---- logo que se dibuja solo ---- */
+.intro-logo {
+  width: clamp(88px, 11vw, 132px); border-radius: 24px;
+  box-shadow: 0 24px 60px -22px rgba(0,0,0,0.65);
+}
+@keyframes introLogoIn { to { opacity: 1; transform: none; } }
+.intro-logo .il { display: block; width: 100%; height: auto; }
+
+/* trazo del bulldog: dibujo progresivo */
+.il-stroke .d {
+  stroke-dasharray: 1; stroke-dashoffset: 0;
+}
+@keyframes ilDraw { to { stroke-dashoffset: 0; } }
+.il-stroke .d:nth-child(1) { animation-delay: .30s; }   /* cabeza */
+.il-stroke .d:nth-child(2),
+.il-stroke .d:nth-child(3) { animation-delay: .58s; }    /* orejas */
+.il-stroke .d:nth-child(4),
+.il-stroke .d:nth-child(5) { animation-delay: .80s; }    /* ceño */
+.il-stroke .d:nth-child(6),
+.il-stroke .d:nth-child(7) { animation-delay: .88s; }    /* cejas */
+.il-stroke .d:nth-child(8) { animation-delay: 1.00s; }   /* tabique */
+.il-stroke .d:nth-child(9) { animation-delay: 1.06s; }   /* boca */
+/* ojos + nariz aparecen al final */
+.il-pop {
+  transform-box: fill-box; transform-origin: center;
+}
+@keyframes ilPop { 60% { transform: scale(1.12); } to { opacity: 1; transform: scale(1); } }
+
+/* nombre */
+.intro-word {
+  font-weight: 700; letter-spacing: -0.045em; line-height: 0.9;
+  font-size: clamp(72px, 17vw, 240px); text-transform: none;
+  display: flex; align-items: flex-start; justify-content: center; color: var(--cream);
+}
+.intro-word .clip { display: inline-block; overflow: hidden; }
+.intro-word .ltr { display: inline-block; }
+.intro-word .clip:nth-child(1) .ltr { animation-delay: .50s; }
+.intro-word .clip:nth-child(2) .ltr { animation-delay: .56s; }
+.intro-word .clip:nth-child(3) .ltr { animation-delay: .62s; }
+.intro-word .clip:nth-child(4) .ltr { animation-delay: .68s; }
+.intro-word .clip:nth-child(5) .ltr { animation-delay: .74s; }
+.intro-word sup { font-family: var(--mono); font-size: 0.16em; color: var(--accent); font-weight: 500; margin-left: .04em; transform: translateY(.2em); }
+@keyframes introLtr { to { transform: none; } }
+
+.intro-tag {
+  font-family: var(--mono); font-size: clamp(12px, 1.4vw, 15px);
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--cream-2);
+}
+
+/* botón Entrar */
+.intro-enter {
+  margin-top: clamp(10px, 2vw, 22px);
+}
+.intro-enter.ready { animation: enterBreathe 2.8s ease-in-out 1.1s infinite; }
+@keyframes enterBreathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,84,59,0.45); }
+  70%      { box-shadow: 0 0 0 16px rgba(201,84,59,0); }
+}
+
+/* zona inferior: hint sutil */
+.intro-bottom { display: flex; align-items: center; justify-content: center; }
+.intro-hint {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--dim);
+}
+.intro-hint b { color: var(--cream-2); font-weight: 500; }
+.intro-hint kbd {
+  font-family: var(--mono); font-size: 10px; color: var(--cream);
+  border: 1px solid var(--line-2); border-radius: 5px; padding: 2px 6px; margin: 0 2px;
+}
+
+@keyframes introFade { to { opacity: 1; transform: none; } }
+
+/* ============================================================
+   ENTRADA ANIMADA — sólo cuando hay movimiento (clase .is-anim
+   la añade el JS si el usuario no pidió menos movimiento).
+   El estado base de arriba ya es VISIBLE: si las animaciones
+   no se ejecutan, el portal se ve completo igualmente.
+   ============================================================ */
+.intro.is-anim .intro-top   { opacity: 0; transform: translateY(-10px); animation: introFade .9s var(--ease) .15s forwards; }
+.intro.is-anim .intro-logo  { opacity: 0; transform: scale(.88); animation: introLogoIn .7s var(--ease) .1s forwards; }
+.intro.is-anim .il-stroke .d { stroke-dashoffset: 1; animation: ilDraw .95s var(--ease) forwards; }
+.intro.is-anim .il-pop      { opacity: 0; transform: scale(.3); animation: ilPop .5s var(--ease) 1.25s forwards; }
+.intro.is-anim .intro-word .ltr { transform: translateY(108%); animation: introLtr 1s var(--ease) forwards; }
+.intro.is-anim .intro-tag   { opacity: 0; transform: translateY(10px); animation: introFade .9s var(--ease) 1.05s forwards; }
+.intro.is-anim .intro-enter { opacity: 0; transform: translateY(14px) scale(.96); pointer-events: none; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.intro.is-anim .intro-enter.ready { opacity: 1; transform: none; pointer-events: auto; }
+.intro.is-anim .intro-hint  { opacity: 0; animation: introFade .8s var(--ease) 2s forwards; }
+
+/* ============================================================
+   ATMÓSFERA — resplandor, motas, destello, halo
+   ============================================================ */
+
+/* aura: resplandor cálido que respira detrás del contenido */
+.intro-aura {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none; will-change: filter, opacity;
+  background:
+    radial-gradient(46vw 46vw at 50% 55%, rgba(201, 84, 59, 0.34) 0%, rgba(201, 84, 59, 0.12) 33%, rgba(201, 84, 59, 0) 62%),
+    radial-gradient(34vw 30vw at 50% 13%, rgba(237, 231, 218, 0.09) 0%, rgba(237, 231, 218, 0) 60%);
+  opacity: 0;
+  animation: introFade 1.6s var(--ease) .2s forwards, auraGlow 7.5s ease-in-out 1.8s infinite;
+}
+@keyframes auraGlow {
+  0%, 100% { filter: brightness(0.92) saturate(0.95); }
+  50%      { filter: brightness(1.22) saturate(1.08); }
+}
+
+/* motas de polvo a la deriva (generadas por JS) */
+.intro-motes {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden;
+  opacity: 0; animation: introFade 1.8s var(--ease) .6s forwards;
+}
+.intro-motes .mote {
+  position: absolute; border-radius: 50%; background: var(--cream);
+  opacity: 0; will-change: transform, opacity;
+  animation: moteDrift linear infinite;
+}
+@keyframes moteDrift {
+  0%   { opacity: 0; transform: translate(0, 24px); }
+  14%  { opacity: var(--mo, .4); }
+  86%  { opacity: var(--mo, .4); }
+  100% { opacity: 0; transform: translate(var(--mx, 12px), -130px); }
+}
+
+/* destello de luz que cruza el logotipo una vez ensamblado */
+.intro-word { position: relative; }
+.intro-word .sheen {
+  position: absolute; top: -10%; bottom: -10%; left: 0; width: 24%;
+  pointer-events: none; z-index: 4; mix-blend-mode: screen;
+  background: linear-gradient(105deg, transparent 0%, rgba(255, 251, 242, 0.40) 50%, transparent 100%);
+  transform: translateX(-200%) skewX(-12deg); opacity: 0;
+}
+.intro-word .sheen.go { animation: wordSheen 1.3s var(--ease-2) forwards; }
+@keyframes wordSheen {
+  0%   { opacity: 0; transform: translateX(-200%) skewX(-12deg); }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(500%) skewX(-12deg); }
+}
+
+/* halo del logo + flotación sutil */
+.intro-logo::after {
+  content: ""; position: absolute; inset: -7%; border-radius: 30px; z-index: -1;
+  border: 1px solid rgba(201, 84, 59, 0.65); opacity: 0; pointer-events: none;
+}
+.intro-logo.halo::after { animation: logoHalo 1.5s var(--ease) forwards; }
+@keyframes logoHalo {
+  0%   { opacity: .85; transform: scale(.92); }
+  100% { opacity: 0;   transform: scale(1.65); }
+}
+.intro-logo.afloat { animation: logoFloat 6s ease-in-out infinite; }
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+
+/* ---- motion-min / reduced: estado estático ---- */
+:root[data-motion="min"] .intro-top,
+:root[data-motion="min"] .intro-logo,
+:root[data-motion="min"] .intro-word .ltr,
+:root[data-motion="min"] .intro-tag,
+:root[data-motion="min"] .intro-hint { animation: none !important; opacity: 1; transform: none; filter: none; }
+:root[data-motion="min"] .il-stroke .d { animation: none !important; stroke-dashoffset: 0; }
+:root[data-motion="min"] .il-pop { animation: none !important; opacity: 1; transform: none; }
+:root[data-motion="min"] .intro-enter { opacity: 1; transform: none; pointer-events: auto; animation: none !important; }
+:root[data-motion="min"] .intro-seam { animation: none !important; opacity: .4; transform: translateX(-50%) scaleY(1); }
+:root[data-motion="min"] .intro-aura { animation: none !important; opacity: 1; filter: none; }
+:root[data-motion="min"] .intro-motes { display: none; }
+:root[data-motion="min"] .intro-word .sheen { display: none; }
+:root[data-motion="min"] .intro-logo.afloat { animation: none !important; }
+:root[data-motion="min"] .intro-logo::after { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-enter.ready { animation: none; }
+  .intro-aura { animation: none; opacity: 1; filter: none; }
+  .intro-motes { display: none; }
+  .intro-word .sheen { display: none; }
+  .intro-logo.afloat { animation: none; }
+  .intro-logo::after { display: none; }
+}
+
+@media (max-width: 640px) {
+  .intro-hint { font-size: 10px; }
+}
