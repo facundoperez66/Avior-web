@@ -4,7 +4,10 @@
    Hereda tokens de avior.css
    ============================================================ */
 
-body.intro-open { overflow: hidden; }
+body.intro-open {
+  overflow: hidden;
+  height: 100%;
+}
 
 .intro {
   position: fixed; inset: 0; z-index: 1000;
@@ -45,7 +48,7 @@ body.intro-open { overflow: hidden; }
 .intro-inner {
   position: relative; z-index: 3;
   display: flex; flex-direction: column;
-  min-height: 100svh; padding: clamp(24px, 4vw, 54px) var(--pad);
+  height: 100svh; overflow: hidden; padding: clamp(24px, 4vw, 54px) var(--pad);
   transition: opacity .55s var(--ease), transform .8s var(--ease), filter .55s var(--ease);
 }
 .intro.closing .intro-inner,
@@ -96,7 +99,7 @@ body.intro-open { overflow: hidden; }
 /* nombre */
 .intro-word {
   font-weight: 700; letter-spacing: -0.045em; line-height: 0.9;
-  font-size: clamp(72px, 17vw, 240px); text-transform: none;
+  font-size: clamp(56px, 14vw, 240px); text-transform: none;
   display: flex; align-items: flex-start; justify-content: center; color: var(--cream);
 }
 .intro-word .clip { display: inline-block; overflow: hidden; }
@@ -244,8 +247,76 @@ body.intro-open { overflow: hidden; }
   .intro-word .sheen { display: none; }
   .intro-logo.afloat { animation: none; }
   .intro-logo::after { display: none; }
+  .intro-panel { transition: none !important; }
+  .intro-inner { transition: none !important; }
 }
 
 @media (max-width: 640px) {
   .intro-hint { font-size: 10px; }
+}
+
+/* ============================================================
+   Intro — adaptaciones para viewports cortos (landscape mobile,
+   ventanas chicas). El contenido está pensado para portrait pero
+   debe seguir mostrando logo + nombre + botón en cualquier altura.
+   ============================================================ */
+
+@media (max-height: 720px) {
+  .intro-inner {
+    padding: clamp(16px, 3vw, 36px) var(--pad);
+  }
+  .intro-logo {
+    width: clamp(64px, 9vw, 100px);
+  }
+  .intro-word {
+    font-size: clamp(48px, 11vw, 140px);
+  }
+  .intro-center {
+    gap: clamp(10px, 1.8vw, 20px);
+  }
+}
+
+@media (max-height: 520px) {
+  .intro-top    { display: none; }
+  .intro-bottom { display: none; }
+  .intro-logo   { width: clamp(48px, 7vw, 76px); }
+  .intro-word   { font-size: clamp(36px, 8vw, 88px); }
+  .intro-center { gap: 10px; }
+  .intro-enter  { margin-top: 6px; }
+}
+
+/* ============================================================
+   Intro — contención defensiva: ningún hijo puede causar
+   overflow horizontal, todos respetan el ancho del viewport.
+   ============================================================ */
+
+.intro-inner {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+.intro-top,
+.intro-center,
+.intro-bottom {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.intro-word,
+.intro-tag,
+.intro-logo,
+.intro-enter {
+  max-width: 100%;
+}
+
+.intro-word {
+  flex-wrap: wrap;
+}
+
+.intro-logo .il {
+  max-width: 100%;
+  height: auto;
 }
