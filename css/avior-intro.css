@@ -297,6 +297,10 @@ body.intro-open {
   overflow: hidden;
 }
 
+@media (hover: none) {
+  .intro-hint { display: none; }
+}
+
 .intro-top,
 .intro-center,
 .intro-bottom {
