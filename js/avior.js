@@ -164,10 +164,61 @@
   var menuBtn = document.querySelector(".menu-btn");
   var mobileMenu = document.querySelector(".mobile-menu");
   if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener("click", function () { mobileMenu.classList.add("open"); });
-    mobileMenu.querySelector(".mm-close").addEventListener("click", function () { mobileMenu.classList.remove("open"); });
-    mobileMenu.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () { mobileMenu.classList.remove("open"); });
+    var mmCloseBtn = mobileMenu.querySelector(".mm-close");
+    var lastFocused = null;
+
+    function openMenu() {
+      lastFocused = document.activeElement;
+      mobileMenu.classList.add("open");
+      mobileMenu.removeAttribute("aria-hidden");
+      mobileMenu.inert = false;
+      menuBtn.setAttribute("aria-expanded", "true");
+      if (mmCloseBtn) mmCloseBtn.focus();
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove("open");
+      mobileMenu.setAttribute("aria-hidden", "true");
+      mobileMenu.inert = true;
+      menuBtn.setAttribute("aria-expanded", "false");
+      if (lastFocused && typeof lastFocused.focus === "function" && document.contains(lastFocused)) {
+        lastFocused.focus();
+      } else {
+        menuBtn.focus();
+      }
+    }
+
+    menuBtn.addEventListener("click", openMenu);
+    if (mmCloseBtn) mmCloseBtn.addEventListener("click", closeMenu);
+
+    var menuLinks = mobileMenu.querySelectorAll("a");
+    for (var i = 0; i < menuLinks.length; i++) {
+      menuLinks[i].addEventListener("click", closeMenu);
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && mobileMenu.classList.contains("open")) {
+        closeMenu();
+      }
+    });
+
+    mobileMenu.addEventListener("keydown", function (e) {
+      if (e.key !== "Tab") return;
+      if (!mobileMenu.classList.contains("open")) return;
+
+      var focusables = mobileMenu.querySelectorAll("a[href], button:not([disabled])");
+      if (focusables.length === 0) return;
+
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
   }
 
