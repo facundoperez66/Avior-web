@@ -83,6 +83,7 @@ button { font-family: inherit; cursor: none; }
   letter-spacing: -0.03em;
   line-height: 0.92;
   text-wrap: balance;
+  padding-bottom: 0.08em;
 }
 
 h2.section-title {
