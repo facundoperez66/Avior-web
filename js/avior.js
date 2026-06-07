@@ -200,4 +200,9 @@
   window.addEventListener("scroll", function () { requestAnimationFrame(activeNav); }, { passive: true });
   activeNav();
 
+  var disabledChannels = document.querySelectorAll('a.channel[aria-disabled="true"]');
+  for (var i = 0; i < disabledChannels.length; i++) {
+    disabledChannels[i].addEventListener('click', function (e) { e.preventDefault(); });
+  }
+
 })();
