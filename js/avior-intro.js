@@ -8,6 +8,18 @@
   var intro = document.getElementById("intro");
   if (!intro) return;
 
+  /* Si el usuario ya entró en esta sesión, saltar el intro entero */
+  try {
+    if (sessionStorage.getItem("avior-intro-seen") === "1") {
+      if (intro.parentNode) intro.parentNode.removeChild(intro);
+      document.body.classList.remove("intro-open");
+      return;
+    }
+  } catch (e) {
+    /* sessionStorage puede no estar disponible (modo privado en algunos
+       navegadores). Si falla, sigue funcionando normal sin persistencia. */
+  }
+
   /* ---------- el portal aparece siempre antes de la página ---------- */
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -85,6 +97,7 @@
   function enter() {
     if (left) return;
     left = true;
+    try { sessionStorage.setItem("avior-intro-seen", "1"); } catch (e) {}
     if (sheenTimer) { clearInterval(sheenTimer); sheenTimer = null; }
     // etapa 1: el contenido se desvanece
     intro.classList.add("closing");

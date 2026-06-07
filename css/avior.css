@@ -450,7 +450,7 @@ body[data-hero="c"] #hero-c { display: flex; }
 .cta-block .lead { max-width: 520px; margin: 28px auto 0; }
 .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
 
-.contact-strip { display: grid; grid-template-columns: 1.4fr 1fr; gap: 0; }
+.contact-strip { display: grid; grid-template-columns: 1.4fr 1fr; gap: 0; max-width: var(--maxw); margin-left: auto; margin-right: auto; }
 @media (max-width: 880px) { .contact-strip { grid-template-columns: 1fr; } }
 
 .form-side { padding: clamp(40px, 6vw, 80px) var(--pad); border-right: 1px solid var(--line); }
@@ -566,6 +566,7 @@ image-slot::part(empty) { color: rgba(237, 231, 218, 0.45); font-family: var(--m
   .stats { grid-template-columns: 1fr; }
   .hero-a-meta { text-align: left; }
   .footer-top { flex-direction: column; }
+  .proc-step { min-height: auto; }
 }
 
 /* mobile menu overlay */
@@ -585,9 +586,32 @@ image-slot::part(empty) { color: rgba(237, 231, 218, 0.45); font-family: var(--m
   [data-reveal],
   [data-reveal].in,
   .line-reveal,
-  .line-reveal.in {
+  .line-reveal.in,
+  .line-reveal .ltr {
     transition: none !important;
+    animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* ============================================================
+   Hero — distribución compacta en mobile/tablet.
+   En ≤900px ya no forzamos 100svh: el hero respira con su
+   propio contenido + padding intencional.
+   ============================================================ */
+
+@media (max-width: 1080px) {
+  .hero,
+  .hero-a {
+    min-height: auto;
+    padding-top: clamp(100px, 16vh, 160px);
+    padding-bottom: clamp(40px, 6vh, 80px);
+  }
+  /* Si el grid interno tiene gaps grandes en mobile, los achicamos */
+  .hero-a-grid,
+  .hero-a-top,
+  .hero-a-bottom {
+    gap: clamp(18px, 4vw, 32px);
   }
 }

@@ -192,3 +192,21 @@
   .pj-hero-index { text-align: left; }
   .pj-filterbar .wrap { justify-content: flex-start; }
 }
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .pj-card.feat .pj-media image-slot {
+    height: clamp(200px, 70vh, 320px) !important;
+  }
+}
+
+/* ============================================================
+   PJ-Hero — misma lógica que hero principal en mobile/tablet
+   ============================================================ */
+
+@media (max-width: 1080px) {
+  .pj-hero {
+    min-height: auto;
+    padding-top: clamp(100px, 16vh, 160px);
+    padding-bottom: clamp(40px, 6vh, 80px);
+  }
+}

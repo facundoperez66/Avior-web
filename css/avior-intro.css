@@ -249,6 +249,10 @@ body.intro-open {
   .intro-logo::after { display: none; }
   .intro-panel { transition: none !important; }
   .intro-inner { transition: none !important; }
+  .intro.is-anim .intro-word .ltr {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 @media (max-width: 640px) {
