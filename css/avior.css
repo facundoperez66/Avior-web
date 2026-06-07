@@ -616,3 +616,30 @@ image-slot::part(empty) { color: rgba(237, 231, 218, 0.45); font-family: var(--m
     gap: clamp(18px, 4vw, 32px);
   }
 }
+
+/* ============================================================
+   Skip link — invisible hasta que recibe foco con teclado.
+   Permite a usuarios de teclado saltar nav/intro y llegar al
+   contenido principal directo. WCAG 2.4.1.
+   ============================================================ */
+.skip-link {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 9999;
+  padding: 12px 18px;
+  background: var(--cream);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0 0 8px 0;
+  transform: translateY(-110%);
+  transition: transform .18s var(--ease);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--terra);
+  outline-offset: 2px;
+}
