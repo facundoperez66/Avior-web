@@ -479,6 +479,7 @@ body[data-hero="c"] #hero-c { display: flex; }
 .field textarea { resize: vertical; min-height: 70px; }
 .form-side .btn { margin-top: 8px; }
 .form-msg { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-top: 18px; min-height: 18px; }
+.hp-field { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 
 .channels-side { padding: clamp(40px, 6vw, 80px) var(--pad); display: flex; flex-direction: column; gap: 4px; }
 .channel {
