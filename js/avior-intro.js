@@ -20,6 +20,26 @@
        navegadores). Si falla, sigue funcionando normal sin persistencia. */
   }
 
+  // A11y: el resto del sitio queda inert mientras el intro está visible.
+  // Esto atrapa el foco naturalmente dentro del intro.
+  function setSiblingsInert(value) {
+    var sels = ['main', 'footer', 'nav', '.skip-link'];
+    for (var i = 0; i < sels.length; i++) {
+      var els = document.querySelectorAll(sels[i]);
+      for (var j = 0; j < els.length; j++) {
+        if (value) els[j].setAttribute('inert', '');
+        else els[j].removeAttribute('inert');
+      }
+    }
+  }
+  setSiblingsInert(true);
+
+  // Foco inicial al botón "Entrar al estudio" para que el primer tab no se pierda
+  setTimeout(function () {
+    var enterBtn = intro && intro.querySelector('.intro-enter');
+    if (enterBtn) enterBtn.focus();
+  }, 250);
+
   /* ---------- el portal aparece siempre antes de la página ---------- */
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -97,6 +117,7 @@
   function enter() {
     if (left) return;
     left = true;
+    setSiblingsInert(false);
     try { sessionStorage.setItem("avior-intro-seen", "1"); } catch (e) {}
     if (sheenTimer) { clearInterval(sheenTimer); sheenTimer = null; }
     // etapa 1: el contenido se desvanece
@@ -117,7 +138,13 @@
 
   if (enterBtn) enterBtn.addEventListener("click", enter);
   document.addEventListener("keydown", function (e) {
+    // Solo intercede si el intro está visible y no se está cerrando
     if (left) return;
+    if (!document.body.classList.contains("intro-open")) return;
+    // Y si el foco está en el intro (o en body por default)
+    var ae = document.activeElement;
+    if (ae && ae !== document.body && intro && !intro.contains(ae)) return;
+
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       enter();
