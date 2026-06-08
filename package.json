@@ -1,0 +1,12 @@
+{
+  "name": "avior",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio del estudio Avior",
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "resend": "^6.12.4"
+  }
+}
