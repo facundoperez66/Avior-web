@@ -15,6 +15,7 @@
   --faint:     rgba(237, 231, 218, 0.30);
   --line:      rgba(237, 231, 218, 0.12);
   --line-2:    rgba(237, 231, 218, 0.22);
+  --border:    rgba(237, 231, 218, 0.42); /* bordes de componentes interactivos — WCAG 1.4.11 (~3.5:1) */
   --terra:     #c9543b;
   --terra-2:   #d96b50;
   --accent:    var(--terra);
@@ -177,7 +178,7 @@ h2.section-title {
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--mono); font-size: 13px; letter-spacing: 0.02em;
   padding: 13px 22px; border-radius: 100px;
-  border: 1px solid var(--line-2); background: transparent; color: var(--cream);
+  border: 1px solid var(--border); background: transparent; color: var(--cream);
   position: relative; overflow: hidden;
   transition: color .4s var(--ease), border-color .4s;
 }
@@ -460,12 +461,21 @@ body[data-hero="c"] #hero-c { display: flex; }
 .field { margin-bottom: 22px; position: relative; }
 .field label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--dim); display: block; margin-bottom: 9px; }
 .field input, .field textarea {
-  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line-2);
+  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border);
   color: var(--cream); font-family: var(--sans); font-size: 16px; padding: 10px 0; outline: none;
   transition: border-color .4s;
 }
-.field input::placeholder, .field textarea::placeholder { color: var(--faint); }
-.field input:focus, .field textarea:focus { border-color: var(--accent); }
+.field input::placeholder, .field textarea::placeholder { color: var(--dim); }
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--cream);
+}
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--terra-2);
+  outline-offset: 4px;
+  border-color: var(--cream);
+}
 .field textarea { resize: vertical; min-height: 70px; }
 .form-side .btn { margin-top: 8px; }
 .form-msg { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-top: 18px; min-height: 18px; }
@@ -551,7 +561,7 @@ image-slot::part(empty) { color: rgba(237, 231, 218, 0.45); font-family: var(--m
   .nav-links { display: none; }
   .menu-btn {
     display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
-    border-radius: 50%; border: 1px solid var(--line-2); background: transparent; color: var(--cream);
+    border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--cream);
   }
   .nav-cta .btn:not(.menu-btn) { display: none; }
 }
@@ -579,7 +589,7 @@ image-slot::part(empty) { color: rgba(237, 231, 218, 0.45); font-family: var(--m
 .mobile-menu.open { transform: none; }
 .mobile-menu a { font-size: clamp(34px, 9vw, 56px); font-weight: 700; letter-spacing: -0.02em; padding: 8px 0; color: var(--cream); }
 .mobile-menu a:active { color: var(--accent); }
-.mobile-menu .mm-close { position: absolute; top: 18px; right: var(--pad); width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line-2); background: transparent; color: var(--cream); font-size: 22px; }
+.mobile-menu .mm-close { position: absolute; top: 18px; right: var(--pad); width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--cream); font-size: 22px; }
 .mobile-menu .mm-foot { margin-top: 40px; display: flex; gap: 20px; }
 .mobile-menu .mm-foot a { font-size: 14px; font-weight: 400; font-family: var(--mono); color: var(--dim); }
 

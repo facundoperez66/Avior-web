@@ -227,9 +227,44 @@
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var msg = form.querySelector(".form-msg");
-      var name = (form.querySelector('[name="nombre"]') || {}).value || "";
-      msg.textContent = "✓ ¡Gracias" + (name ? ", " + name.split(" ")[0] : "") + "! Te escribimos en menos de 24 h.";
+      var status = form.querySelector(".form-msg");
+      var data = {
+        nombre:   (form.elements["nombre"]   || {}).value || "",
+        contacto: (form.elements["contacto"] || {}).value || "",
+        mensaje:  (form.elements["mensaje"]  || {}).value || ""
+      };
+
+      // Validación client-side con aria-invalid
+      if (!data.nombre.trim() || !data.contacto.trim()) {
+        if (form.elements["nombre"]) {
+          if (!data.nombre.trim()) form.elements["nombre"].setAttribute("aria-invalid", "true");
+          else form.elements["nombre"].removeAttribute("aria-invalid");
+        }
+        if (form.elements["contacto"]) {
+          if (!data.contacto.trim()) form.elements["contacto"].setAttribute("aria-invalid", "true");
+          else form.elements["contacto"].removeAttribute("aria-invalid");
+        }
+        if (status) {
+          status.setAttribute("role", "alert");
+          status.textContent = "Completá todos los campos antes de enviar.";
+          status.className = "form-msg is-error";
+        }
+        return;
+      }
+
+      // Limpiar aria-invalid en submit válido
+      var fields = ["nombre", "contacto", "mensaje"];
+      for (var k = 0; k < fields.length; k++) {
+        if (form.elements[fields[k]]) form.elements[fields[k]].removeAttribute("aria-invalid");
+      }
+
+      // Éxito
+      var name = data.nombre.split(" ")[0];
+      if (status) {
+        status.setAttribute("role", "status");
+        status.textContent = "✓ ¡Gracias" + (name ? ", " + name : "") + "! Te escribimos en menos de 24 h.";
+        status.className = "form-msg";
+      }
       form.querySelectorAll("input, textarea").forEach(function (f) { f.value = ""; });
     });
   }
