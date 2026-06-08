@@ -223,49 +223,118 @@
   }
 
   /* ---------- Contact form ---------- */
-  var form = document.querySelector("#contact-form");
+  var form = document.querySelector('#contact-form');
   if (form) {
-    form.addEventListener("submit", function (e) {
+    var btn = form.querySelector('button[type="submit"]');
+    var status = form.querySelector('.form-msg');
+    var btnLabel = btn ? btn.textContent : '';
+
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var status = form.querySelector(".form-msg");
+      if (form.getAttribute('aria-busy') === 'true') return;
+
+      // Limpiar estado anterior
+      if (status) {
+        status.textContent = '';
+        status.className = 'form-msg';
+        status.setAttribute('role', 'status');
+      }
+
       var data = {
-        nombre:   (form.elements["nombre"]   || {}).value || "",
-        contacto: (form.elements["contacto"] || {}).value || "",
-        mensaje:  (form.elements["mensaje"]  || {}).value || ""
+        nombre:    (form.elements['nombre']    || {}).value || '',
+        contacto:  (form.elements['contacto']  || {}).value || '',
+        mensaje:   (form.elements['mensaje']   || {}).value || '',
+        _honeypot: (form.elements['_honeypot'] || {}).value || ''
       };
 
       // Validación client-side con aria-invalid
-      if (!data.nombre.trim() || !data.contacto.trim()) {
-        if (form.elements["nombre"]) {
-          if (!data.nombre.trim()) form.elements["nombre"].setAttribute("aria-invalid", "true");
-          else form.elements["nombre"].removeAttribute("aria-invalid");
-        }
-        if (form.elements["contacto"]) {
-          if (!data.contacto.trim()) form.elements["contacto"].setAttribute("aria-invalid", "true");
-          else form.elements["contacto"].removeAttribute("aria-invalid");
-        }
+      var hasError = !data.nombre.trim() || !data.contacto.trim() || !data.mensaje.trim();
+      if (form.elements['nombre']) {
+        if (!data.nombre.trim()) form.elements['nombre'].setAttribute('aria-invalid', 'true');
+        else form.elements['nombre'].removeAttribute('aria-invalid');
+      }
+      if (form.elements['contacto']) {
+        if (!data.contacto.trim()) form.elements['contacto'].setAttribute('aria-invalid', 'true');
+        else form.elements['contacto'].removeAttribute('aria-invalid');
+      }
+      if (form.elements['mensaje']) {
+        if (!data.mensaje.trim()) form.elements['mensaje'].setAttribute('aria-invalid', 'true');
+        else form.elements['mensaje'].removeAttribute('aria-invalid');
+      }
+      if (hasError) {
         if (status) {
-          status.setAttribute("role", "alert");
-          status.textContent = "Completá todos los campos antes de enviar.";
-          status.className = "form-msg is-error";
+          status.setAttribute('role', 'alert');
+          status.textContent = 'Completá todos los campos antes de enviar.';
+          status.className = 'form-msg is-error';
         }
         return;
       }
 
-      // Limpiar aria-invalid en submit válido
-      var fields = ["nombre", "contacto", "mensaje"];
-      for (var k = 0; k < fields.length; k++) {
-        if (form.elements[fields[k]]) form.elements[fields[k]].removeAttribute("aria-invalid");
+      // Loading state
+      form.setAttribute('aria-busy', 'true');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Enviando…';
       }
 
-      // Éxito
-      var name = data.nombre.split(" ")[0];
-      if (status) {
-        status.setAttribute("role", "status");
-        status.textContent = "✓ ¡Gracias" + (name ? ", " + name : "") + "! Te escribimos en menos de 24 h.";
-        status.className = "form-msg";
-      }
-      form.querySelectorAll("input, textarea").forEach(function (f) { f.value = ""; });
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(function (res) {
+          return res.json().then(function (body) {
+            return { httpOk: res.ok, body: body };
+          });
+        })
+        .then(function (r) {
+          form.setAttribute('aria-busy', 'false');
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = btnLabel;
+          }
+
+          if (r.httpOk && r.body && r.body.ok) {
+            form.reset();
+            var fields = ['nombre', 'contacto', 'mensaje'];
+            for (var k = 0; k < fields.length; k++) {
+              if (form.elements[fields[k]]) form.elements[fields[k]].removeAttribute('aria-invalid');
+            }
+            if (status) {
+              status.setAttribute('role', 'status');
+              status.textContent = '¡Mensaje enviado! Te respondemos en menos de 24 hs.';
+              status.className = 'form-msg is-success';
+            }
+            return;
+          }
+
+          var code = (r.body && r.body.error) || 'unknown';
+          var msg = 'Hubo un problema al enviar. Probá de nuevo o escribinos por WhatsApp.';
+          if (code === 'rate_limited') {
+            msg = 'Estás enviando muchos mensajes seguidos. Esperá un minuto y volvé a intentar.';
+          } else if (code === 'invalid_nombre' || code === 'invalid_contacto' || code === 'invalid_mensaje') {
+            msg = 'Revisá los campos: alguno quedó incompleto o muy corto.';
+          } else if (code === 'server_misconfigured') {
+            msg = 'Configuración del servidor pendiente. Escribinos por WhatsApp mientras tanto.';
+          }
+          if (status) {
+            status.setAttribute('role', 'alert');
+            status.textContent = msg;
+            status.className = 'form-msg is-error';
+          }
+        })
+        .catch(function () {
+          form.setAttribute('aria-busy', 'false');
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = btnLabel;
+          }
+          if (status) {
+            status.setAttribute('role', 'alert');
+            status.textContent = 'No pudimos conectar. Verificá tu internet o escribinos por WhatsApp.';
+            status.className = 'form-msg is-error';
+          }
+        });
     });
   }
 

@@ -411,7 +411,7 @@
         <form id="contact-form">
           <div class="field"><label for="field-nombre">Nombre</label><input id="field-nombre" type="text" name="nombre" placeholder="Tu nombre o empresa" required /></div>
           <div class="field"><label for="field-contacto">Email o WhatsApp</label><input id="field-contacto" type="text" name="contacto" placeholder="¿Cómo te contactamos?" required /></div>
-          <div class="field"><label for="field-mensaje">¿Qué necesitas?</label><textarea id="field-mensaje" name="mensaje" placeholder="Una web, una tienda online, una app…" rows="2"></textarea></div>
+          <div class="field"><label for="field-mensaje">¿Qué necesitas?</label><textarea id="field-mensaje" name="mensaje" placeholder="Una web, una tienda online, una app…" rows="2" required minlength="5" maxlength="5000" aria-required="true"></textarea></div>
           <button type="submit" class="btn solid lg"><span class="lbl">Enviar mensaje</span><svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H4M11 3V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="form-msg" role="status"></div>
         </form>
