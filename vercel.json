@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/contact.js": {
-      "maxDuration": 10
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
