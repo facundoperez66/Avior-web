@@ -1,0 +1,24 @@
+{
+  "name": "Avior",
+  "short_name": "Avior",
+  "description": "Estudio digital de diseño, desarrollo y automatización.",
+  "icons": [
+    {
+      "src": "/assets/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#131110",
+  "background_color": "#131110",
+  "display": "standalone",
+  "start_url": "/",
+  "lang": "es-AR"
+}
