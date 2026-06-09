@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Bloquear endpoints internos del backend
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://avior-six.vercel.app/sitemap.xml
