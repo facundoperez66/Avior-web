@@ -247,7 +247,7 @@
         nombre:     (form.elements['nombre']     || {}).value || '',
         contacto:   (form.elements['contacto']   || {}).value || '',
         mensaje:    (form.elements['mensaje']    || {}).value || '',
-        botcheck:   (form.elements['botcheck']   || {}).value || '',
+        botcheck:   (form.elements['botcheck'] && form.elements['botcheck'].checked) ? 'on' : '',
         _honeypot:  (form.elements['_honeypot']  || {}).value || ''
       };
 
