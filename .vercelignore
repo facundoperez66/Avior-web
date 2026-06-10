@@ -1,0 +1,19 @@
+# Internal documentation
+CLAUDE.md
+
+# Build scripts (corren localmente, no se deployan)
+scripts/
+
+# Backups, archives
+*.zip
+
+# Editor configs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
