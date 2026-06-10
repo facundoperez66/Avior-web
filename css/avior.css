@@ -420,10 +420,10 @@ body[data-hero="c"] #hero-c { display: flex; }
    PRECIOS
    ============================================================ */
 .precios { padding: clamp(80px, 11vw, 160px) 0; }
-.price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2vw, 24px); align-items: stretch; }
+.price-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 1.5vw, 20px); align-items: stretch; }
 .price-card {
-  border: 1px solid var(--line); border-radius: 18px; padding: 34px;
-  display: flex; flex-direction: column; gap: 24px; position: relative;
+  border: 1px solid var(--line); border-radius: 18px; padding: 24px 30px;
+  display: flex; flex-direction: column; gap: 18px; position: relative;
   transition: border-color .4s, background .4s var(--ease), transform .5s var(--ease);
 }
 .price-card:hover { transform: translateY(-5px); border-color: var(--line-2); }
@@ -440,6 +440,19 @@ body[data-hero="c"] #hero-c { display: flex; }
 .price-feats li { list-style: none; font-size: 14px; color: var(--cream); display: flex; gap: 12px; align-items: flex-start; line-height: 1.4; }
 .price-feats li .ck { color: var(--accent); flex-shrink: 0; margin-top: 1px; }
 .price-card .btn { width: 100%; justify-content: center; }
+
+.pricing-note {
+  max-width: 720px;
+  margin: 40px auto 0;
+  padding: 20px 28px;
+  border: 1px solid var(--line-2);
+  border-radius: 16px;
+  text-align: center;
+  color: var(--cream-2);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.pricing-note strong { color: var(--terra); font-weight: 600; }
 
 /* ============================================================
    CONTACTO / FOOTER
@@ -552,7 +565,7 @@ image-slot::part(empty) { color: rgba(237, 231, 218, 0.45); font-family: var(--m
 @media (max-width: 1080px) {
   .hero-c-grid { grid-template-columns: repeat(2, 1fr); }
   .proc-grid { grid-template-columns: repeat(2, 1fr); }
-.price-grid { grid-template-columns: 1fr; }
+.price-grid { grid-template-columns: repeat(2, 1fr); }
   .sobre-grid { grid-template-columns: 1fr; }
   .hero-b-inner { grid-template-columns: 1fr; }
   .hero-b-card { aspect-ratio: 16/10; max-height: 360px; }
@@ -566,6 +579,7 @@ image-slot::part(empty) { color: rgba(237, 231, 218, 0.45); font-family: var(--m
   .nav-cta .btn:not(.menu-btn) { display: none; }
 }
 @media (max-width: 760px) {
+  .price-grid { grid-template-columns: 1fr; }
   .proj.big, .proj.small, .proj.half { grid-column: span 12; }
   .proj .proj-media image-slot { height: 300px !important; }
   .svc-row { grid-template-columns: 50px 1fr; row-gap: 14px; }
