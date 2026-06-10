@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#131110">
+  <title>Página no encontrada — Avior</title>
+  <meta name="description" content="La página que buscás no existe o fue movida.">
+  <meta name="robots" content="noindex, follow">
+
+  <link rel="icon" type="image/svg+xml" href="/assets/avior-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+  <style>
+    :root {
+      --bg: #131110;
+      --cream: #ede7da;
+      --terra: #c9543b;
+      --dim: rgba(237, 231, 218, 0.5);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      text-align: center;
+      -webkit-font-smoothing: antialiased;
+    }
+    .icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 40px;
+      opacity: 0.95;
+    }
+    .accent {
+      color: var(--terra);
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .code {
+      font-size: clamp(96px, 18vw, 168px);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 0.9;
+      margin-bottom: 24px;
+    }
+    .title {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .description {
+      font-size: 15px;
+      color: var(--dim);
+      max-width: 460px;
+      line-height: 1.55;
+      margin-bottom: 40px;
+    }
+    .cta {
+      display: inline-block;
+      padding: 14px 36px;
+      background: var(--terra);
+      color: var(--cream);
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 500;
+      font-size: 15px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .cta:hover { opacity: 0.88; transform: translateY(-1px); }
+    .cta:focus-visible { outline: 2px solid var(--terra); outline-offset: 4px; }
+  </style>
+</head>
+<body>
+  <img src="/assets/avior-icon.svg" alt="" class="icon">
+  <div class="accent">Error 404</div>
+  <div class="code" aria-hidden="true">404</div>
+  <h1 class="title">Página no encontrada</h1>
+  <p class="description">La página que buscás no existe, fue movida, o el link está roto. Volvamos al inicio.</p>
+  <a href="/" class="cta">Volver al inicio</a>
+
+  <!-- Vercel Analytics + Speed Insights -->
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+</body>
+</html>
