@@ -441,6 +441,12 @@
       <div class="form-side">
         <h3>Cuéntanos tu proyecto</h3>
         <form id="contact-form">
+          <!-- Web3Forms config (campos ocultos, key es público por diseño) -->
+          <input type="hidden" name="access_key" value="d487c792-121b-42b0-b9ce-6ebdff84f7ed">
+          <input type="hidden" name="subject" value="Nueva consulta desde Avior">
+          <input type="hidden" name="from_name" value="Avior — Formulario web">
+          <!-- Web3Forms botcheck (anti-bot interno, queda vacío para humanos) -->
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
           <div class="field"><label for="field-nombre">Nombre</label><input id="field-nombre" type="text" name="nombre" placeholder="Tu nombre o empresa" required /></div>
           <div class="field"><label for="field-contacto">Email o WhatsApp</label><input id="field-contacto" type="text" name="contacto" placeholder="¿Cómo te contactamos?" required /></div>
           <div class="field"><label for="field-mensaje">¿Qué necesitas?</label><textarea id="field-mensaje" name="mensaje" placeholder="Una web, una tienda online, una app…" rows="2" required minlength="5" maxlength="5000" aria-required="true"></textarea></div>

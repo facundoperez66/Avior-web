@@ -241,10 +241,14 @@
       }
 
       var data = {
-        nombre:    (form.elements['nombre']    || {}).value || '',
-        contacto:  (form.elements['contacto']  || {}).value || '',
-        mensaje:   (form.elements['mensaje']   || {}).value || '',
-        _honeypot: (form.elements['_honeypot'] || {}).value || ''
+        access_key: (form.elements['access_key'] || {}).value || '',
+        subject:    (form.elements['subject']    || {}).value || 'Nueva consulta desde Avior',
+        from_name:  (form.elements['from_name']  || {}).value || 'Avior — Formulario web',
+        nombre:     (form.elements['nombre']     || {}).value || '',
+        contacto:   (form.elements['contacto']   || {}).value || '',
+        mensaje:    (form.elements['mensaje']    || {}).value || '',
+        botcheck:   (form.elements['botcheck']   || {}).value || '',
+        _honeypot:  (form.elements['_honeypot']  || {}).value || ''
       };
 
       // Validación client-side con aria-invalid
@@ -277,7 +281,7 @@
         btn.textContent = 'Enviando…';
       }
 
-      fetch('/api/contact', {
+      fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -294,7 +298,7 @@
             btn.textContent = btnLabel;
           }
 
-          if (r.httpOk && r.body && r.body.ok) {
+          if (r.httpOk && r.body && r.body.success === true) {
             form.reset();
             var fields = ['nombre', 'contacto', 'mensaje'];
             for (var k = 0; k < fields.length; k++) {
@@ -308,14 +312,12 @@
             return;
           }
 
-          var code = (r.body && r.body.error) || 'unknown';
+          // Error: mostrar mensaje contextual si Web3Forms lo dio
           var msg = 'Hubo un problema al enviar. Probá de nuevo o escribinos por WhatsApp.';
-          if (code === 'rate_limited') {
-            msg = 'Estás enviando muchos mensajes seguidos. Esperá un minuto y volvé a intentar.';
-          } else if (code === 'invalid_nombre' || code === 'invalid_contacto' || code === 'invalid_mensaje') {
-            msg = 'Revisá los campos: alguno quedó incompleto o muy corto.';
-          } else if (code === 'server_misconfigured') {
-            msg = 'Configuración del servidor pendiente. Escribinos por WhatsApp mientras tanto.';
+          if (r.body && r.body.message) {
+            if (/honeypot|bot|spam|invalid/i.test(r.body.message)) {
+              msg = 'Hubo un problema al validar el envío. Recargá la página y volvé a intentar.';
+            }
           }
           if (status) {
             status.setAttribute('role', 'alert');
